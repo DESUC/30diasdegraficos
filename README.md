@@ -7,4 +7,4 @@ Participación en el desafío #30diasdegraficos con R, de @R4DS_es
 
 - En la carpeta "output" encuentras las imágenes de los graficos.
 
-Equipo DESUC
+Equipo [DESUC](http://www.desuc.cl)
