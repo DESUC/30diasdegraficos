@@ -86,17 +86,18 @@ p <- p +
               ncol = 1, 
               strip.position = 'left') +
   scale_edge_color_brewer(palette = 'Set1', guide = 'none') +
-  theme_minimal() +
+  theme_minimal(base_size = 8) +
   guides(edge_size = 'none', edge_width = 'none') +
   theme(panel.spacing = unit(0.5, 'cm'),
         plot.caption = element_text(size = rel(.5)))
 
 p +
-  labs(title = 'Relación de confianza entre instituciones según edadccccc',
+  labs(title = 'Relación de confianza entre instituciones según edad',
        subtitle = 'Se consideran respuestas "mucho" y "bastante"\nY en general, ¿cuánto confía en las instituciones que le nombraré?',
        caption = 'Encuesta Bicentenario 2019, DESUC')
 
 ggsave('outputs/05-arc_gg_confianza.png',
-       width = 23,
-       height = 13.7,
+       width = 12,
+       height = 10,
+       scale = 1,
        units = 'cm')
