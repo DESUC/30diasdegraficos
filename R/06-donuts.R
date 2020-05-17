@@ -39,3 +39,9 @@ dona_germen <- ggplot(data = germenes,
   xlim(.5,2.5) +
   guides(fill = guide_legend(title = " "))
   
+
+ggsave('outputs/06-dona_germen.png',
+       width = 5,
+       height = 5,
+       scale = 3,
+       units = 'cm')
