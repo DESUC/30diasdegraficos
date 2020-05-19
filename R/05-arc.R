@@ -99,5 +99,5 @@ p +
 ggsave('outputs/05-arc_gg_confianza.png',
        width = 12,
        height = 10,
-       scale = 1,
+       scale = 1.25,
        units = 'cm')
