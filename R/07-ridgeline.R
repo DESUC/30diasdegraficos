@@ -7,6 +7,8 @@ library(desuctools)
 library(sjmisc)
 library(ggridges)
 library(sjlabelled)
+library(viridis)
+
 
 # Apertura de base
 
@@ -32,7 +34,7 @@ df_hacienda <- df_hacienda %>%
     TRUE ~ as.integer(NA)
   )) %>% 
   var_labels(p1 = 'Con una escala de 1 a 7, donde 1 es pésimo y 7 es excelente, ¿cómo evalúa en general a la institución?') %>% 
-  set_labels(., p1, labels = c('1', '2', '3', '4', '5', '6',  '7', 'No sabe', 'No responde')) 
+  set_labels(., p1, labels = c('Pésimo', '2', '3', '4', '5', '6',  'Excelente', 'No sabe', 'No responde')) 
 
 df_hacienda <- df_hacienda %>% 
   mutate(pond = as.numeric(PONDERADOR))
@@ -67,6 +69,21 @@ satisfaccion <- tabla_vars_segmentos(.data = df_hacienda,
   filter(!pregunta_cat=="No responde") %>% 
   mutate(prop = round(prop*100))
 
+# Gráfico
 
-gg_rid <- ggplot(satisfaccion, aes(x = pregunta_cat, y)) + 
-  geom_density_ridges(stat = "identity", scale = 1)
+gg_rid <- ggplot(satisfaccion, aes(x = prop, y = pregunta_cat, fill = ..x..)) + 
+  geom_density_ridges_gradient(alpha = 0.5, scale = 1, show.legend = FALSE, color = "grey") +
+  scale_fill_viridis() +
+  labs(title = "Distribución de la escala de satisfacción \nMedición de la Satisfacción Usuaria 2018 Ministerio de Hacienda",
+       subtitle = "Con una escala de 1 a 7, donde 1 es pésimo y 7 es excelente, \n¿cómo evalúa en general a la institución?",
+       x = "Proporción",
+       y = "Categoría de respuesta",
+       caption = "n válido = 26.838\nIncluye todas las instituciones evaluadas ese año\nDESUC") +
+  theme_minimal()
+
+
+ggsave('outputs/07-ridgeline.png',
+       width = 6,
+       height = 7,
+       scale = 3,
+       units = 'cm')
