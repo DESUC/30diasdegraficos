@@ -3,11 +3,7 @@
 
 library(haven)
 library(tidyverse)
-library(dplyr)
-library(tidyr)
 library(janitor)
-library(labelled)
-library(ggplot2)
 
 # Apertura de base
 
@@ -24,6 +20,9 @@ base <- base %>%
                                            'No' = 0),
                                 label = 'A2. ¿Ud. lee, aunque sea de vez en cuando y por más de 15 minutos seguidos, libros, revistas, diarios, textos digitales o algún otro tipo de material?'))
 
+
+# Puntos de cortes para grupos de edad.
+
 edades_cat = seq(16, 96, by = 5)
 
 base$edad_cat <- cut(base$edad_encuestado, breaks = edades_cat)
@@ -38,9 +37,10 @@ base_chart <- base %>%
   mutate(prop = casos / sum(casos)) %>% 
   ungroup()
 
+
 # Gráfico
 
-gg <- base_chart %>% 
+base_chart %>% 
   filter(a2_r == 1, !is.na(edad_cat)) %>% 
   mutate(edad_cat = as.integer(edad_cat)) %>% 
   ggplot(aes(x = edad_cat, y = prop, fill = sexo)) + 
