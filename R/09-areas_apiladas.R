@@ -1,4 +1,5 @@
 # Se requiere abrir la base de datos de la Encuesta de Comportamiento Lector ECL 2014.
+# http://plandelectura.gob.cl/recursos/encuesta-de-comportamiento-lector-2014/
 
 library(haven)
 library(tidyverse)
@@ -19,7 +20,9 @@ base <- base %>%
                                            'No' = 0),
                                 label = 'A2. ¿Ud. lee, aunque sea de vez en cuando y por más de 15 minutos seguidos, libros, revistas, diarios, textos digitales o algún otro tipo de material?'))
 
+
 # Puntos de cortes para grupos de edad.
+
 edades_cat = seq(16, 96, by = 5)
 
 base$edad_cat <- cut(base$edad_encuestado, breaks = edades_cat)
@@ -33,6 +36,7 @@ base_chart <- base %>%
   group_by(edad_cat) %>% 
   mutate(prop = casos / sum(casos)) %>% 
   ungroup()
+
 
 # Gráfico
 
