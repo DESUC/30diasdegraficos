@@ -43,7 +43,7 @@ labels_temor   <- c('Poco y nada' = 1, 'Algo' = 2, 'Mucho y bastante' = 3)
 
 # Apertura de base
 
-base <- readRDS('inputs/12-lollipop-df_bicen_19_30diasdegraficos_2020.rds')
+base <- readRDS ('inputs/12-lollipop-df_bicen_19_30diasdegraficos_2020.rds')
 
 # Armar base de datos
 ## Invertir categorías: más temor = número.
@@ -74,7 +74,7 @@ df_temores_mucho <- df_temores %>%
   summarise_if(is.numeric, sum)
 
 ## Limpiar la etiqueta de la pregunta
-df_temores$pregunta_lab <- fct_relabel(df_temores$pregunta_lab, str_entre_parentesis)
+df_temores_mucho$pregunta_lab <- fct_relabel(df_temores_mucho$pregunta_lab, str_entre_parentesis)
 
 # Pivotear base
 df_temores_mucho_pivot <- df_temores_mucho %>%
