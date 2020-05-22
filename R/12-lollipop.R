@@ -43,8 +43,7 @@ labels_temor   <- c('Poco y nada' = 1, 'Algo' = 2, 'Mucho y bastante' = 3)
 
 # Apertura de base
 
-base <- haven::read_sav('190928 - 04-df_bicen_19_pond_org.sav') %>%
-  clean_names()
+base <- readRDS('inputs/12-lollipop-df_bicen_19_30diasdegraficos_2020.rds')
 
 # Armar base de datos
 ## Invertir categorías: más temor = número.
