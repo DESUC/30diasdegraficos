@@ -3,8 +3,6 @@
 
 library(tidyverse)
 
-base::option()
-
 # Cambiar locale para que gráfico tenga meses en español
 Sys.setlocale(category = "LC_ALL","es_ES.UTF-8")
 
