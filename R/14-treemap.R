@@ -35,6 +35,11 @@ df_comuna_pob <- df_comuna_pob %>%
                           region %in% orden_region[7] ~ 'RM'),
          zona = factor(zona, levels = c('Norte', 'Centro', 'Sur', 'RM')))
 
+# Número de personas proyecctadas
+pob_total <- sum(df_comuna_pob$poblacion)
+chr_pob_total <- format(pob_total, big.mark = '.', decimal.mark = ',')
+
+
 # Gráfico de árbol
 
 ggplot(df_comuna_pob, 
@@ -45,7 +50,8 @@ ggplot(df_comuna_pob,
            subgroup2 = nombre_region)) +
   geom_treemap(aes(alpha = poblacion), 
                colour = 'white') +
-  geom_treemap_subgroup2_border(colour = 'gray95') +
+  geom_treemap_subgroup2_border(colour = 'black',
+                                size = rel(2)) +
   geom_treemap_subgroup2_text(place = "topright", size = rel(12),
                               grow = FALSE, reflow = TRUE,
                               colour =  "black", fontface = "bold", 
@@ -53,15 +59,17 @@ ggplot(df_comuna_pob,
   see::scale_fill_flat_d(name = 'Zona', palette = 3) +
   geom_treemap_text(colour = "gray30",
                     place = "bottomleft",
+                    grow = FALSE, size = rel(7),
                     reflow = TRUE) +
   theme_minimal() +
   theme(legend.position = 'top') +
   guides(alpha = 'none') +
+  labs(title = 'Distribución poblacional de Chile según zonas, regiones y comunas',
+       subtitle = str_glue('Área e intencidad del color relacionado con la proporción de personas\n que viven en esa comuna'),
+       caption = 'Proyección poblacional INE a 2020, para un total de {chr_pob_total} personas, DESUC')
   
-
-
 ggsave('outputs/14-treemap.png',
-       width = 10,
-       height = 10,
-       scale = 3,
+       width = 8,
+       height = 8,
+       scale = 2,
        units = 'cm')
