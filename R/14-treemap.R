@@ -65,7 +65,7 @@ ggplot(df_comuna_pob,
   theme(legend.position = 'top') +
   guides(alpha = 'none') +
   labs(title = 'Distribución poblacional de Chile según zonas, regiones y comunas',
-       subtitle = str_glue('Área e intencidad del color relacionado con la proporción de personas\n que viven en esa comuna'),
+       subtitle = str_glue('Área e intensidad del color relacionado con la proporción de personas\n que viven en esa comuna'),
        caption = 'Proyección poblacional INE a 2020, para un total de {chr_pob_total} personas, DESUC')
   
 ggsave('outputs/14-treemap.png',
