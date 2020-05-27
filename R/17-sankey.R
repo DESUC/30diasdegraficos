@@ -18,11 +18,6 @@ library(ggalluvial)
 df_bc_2018<- readRDS("inputs/16-bicen_2018.rds") %>% 
   clean_names()
 
-names(df_bc_2018)
-
-fig_height <- 8
-lab_truncamiento <- 60
-
 
 # Preparación de datos ----------------------------------------------------
 
@@ -78,15 +73,25 @@ sankey <- ggplot(df_bc_2018_nse_long,
            label = stratum,
            fill = stratum)) +
   ggalluvial::geom_alluvium() + 
-  ggalluvial::geom_stratum(width = 1/5, reverse = TRUE) +
-  geom_text(stat = "stratum", label.strata = TRUE, reverse = TRUE) +
+  ggalluvial::geom_stratum(width = 1/3, reverse = TRUE, colour = 'grey') +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = TRUE, size = 3) +
   scale_x_discrete(labels = c("NSE Calculado", "NSE AIM", 'NSE Observado')) +
   scale_fill_manual(guide = FALSE,
                     values = colores) +
-  labs(title = 'Relación entre formas de medición de Nivel Socio Eeconómico (NSE)',
-       subtitle = 'Calculo Bicentenario, Cálculo método AIM, NSE observado por encuestador',
+  labs(title = 'Relación entre distintos tipos de cálculo de Nivel Socio Eeconómico (NSE)',
+       subtitle = 'Calculo NSE Bicentenario, Cálculo NSE método AIM, NSE observado por encuestador',
        x = 'Variables de NSE',
        y = 'Casos',
-       caption = 'Encuesta Bicentenario 2018')+
-  theme_minimal()
+       caption = 'Encuesta Bicentenario 2018\nAnálisis de DESUC')+
+  theme_minimal() +
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=11),
+        plot.caption = element_text(size = 10),
+        plot.title = element_text(size = 13, face = "bold"),
+        plot.subtitle = element_text(size = 12))
 
+ggsave('outputs/17-sankey.png',
+       width = 6,
+       height = 5,
+       scale = 3,
+       units = 'cm')
