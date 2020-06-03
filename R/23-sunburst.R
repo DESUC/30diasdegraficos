@@ -5,22 +5,24 @@
 # Paquetes ----------------------------------------------------------------
 
 library(tidyverse)
-library(janitor)
 library(sunburstR)
 
 # Base de datos -----------------------------------------------------------
 
-df_comuna_pob <- readRDS("inputs/23-poblacion.RDS")
+df_comuna_pob <- readRDS("inputs/23-poblacion.rds")
 
 # Gráfico -----------------------------------------------------------------
 
 df_poblacion <- df_comuna_pob %>% 
-  select(zona, nombre_region, nombre_comuna, poblacion)
+  mutate(path = str_glue("{zona}-{nombre_region}-{nombre_comuna}")) %>% 
+  select(path, Freq = poblacion)
 
-df_poblacion$path = paste(df_poblacion$zona, df_poblacion$nombre_region, df_poblacion$nombre_comuna, sep="-")
+p_sunburst <- sunburst(data = df_poblacion,
+                       sortFunction = htmlwidgets::JS(),
+                       legend = FALSE)
 
-dia23 <- sunburst(
-  data.frame(xtabs(poblacion~path,df_poblacion)),
-  sortFunction = htmlwidgets::JS())
-dia23
+p_sunburst
+
+htmltools::save_html(p_sunburst, file = "23-sunburst.html")
+
 
