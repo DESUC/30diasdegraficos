@@ -19,10 +19,12 @@ df_poblacion <- df_comuna_pob %>%
 
 p_sunburst <- sunburst(data = df_poblacion,
                        sortFunction = htmlwidgets::JS(),
-                       legend = FALSE)
+                       legend = FALSE,
+                       withD3 = FALSE)
 
 p_sunburst
 
-htmltools::save_html(p_sunburst, file = "23-sunburst.html")
+htmltools::save_html(p_sunburst, file = file.path("23-sunburst.html"))
 
-
+library(webshot)
+webshot('23-sunburst.html', "outputs/23-sunburst.png")
