@@ -52,7 +52,7 @@ gg_ea_gran_santiago <- ea_anos_comuna_gs %>%
   scale_fill_viridis_c(name = 'Proporción\nembarazo\nadolescente',
                        direction = -1,
                        labels = function(x) scales::percent(x, accuracy = 2)) +
-  labs(subtitle = 'Nacimientos de menores de 19 años partido por nacimientos totales',
+  labs(subtitle = 'Nacimientos en menores de 19 años partido por nacimientos totales',
        caption = 'DESUC, a partir de datos INE') +
   theme_minimal() + 
   theme(axis.text = element_blank(),
