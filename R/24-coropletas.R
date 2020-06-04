@@ -1,3 +1,5 @@
+# Se requiere abrir la base de datos de Nacimientos de INE 
+# Disponible en sitio: https://www.ine.cl, además de los marcos muestrales de INE a partir del Censo de 2017. No se disponibilizan por precaución.
 
 # Paquetes ----------------------------------------------------------------
 
