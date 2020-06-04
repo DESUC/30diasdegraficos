@@ -1,4 +1,3 @@
-# Se requiere abrir la base de datos de Nacimientos de INE 
 # Disponible en https://www.ine.cl/estadisticas/sociales/demografia-y-vitales/proyecciones-de-poblacion
 
 
