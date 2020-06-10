@@ -8,12 +8,12 @@ library(sjmisc)
 library(ggplot2)
 library(desuctools)
 
-# base <- haven::read_sav('Casen 2017.sav') %>%
-#   clean_names() %>%
-#   select(folio, expr, v13, qaut, dau)
-# 
-# base %>%
-#   saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
+base <- haven::read_sav('Casen 2017.sav') %>%
+  clean_names() %>%
+  select(folio, expr, v13, v39f, qaut, dau)
+
+base %>%
+  saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
 
 base <- readRDS ('inputs/30-nightingale-casen2017.rds')
 
@@ -35,24 +35,26 @@ base <- base %>%
                           TRUE ~ NA_real_),
          v13_r = haven::labelled(v13_r,
                                 labels = c('Propia o compartida \npagada' = 1,
-                                           'Propia o compartida  \npagándose' = 2,
+                                           'Propia o compartida \npagándose' = 2,
                                            'Arrendada con contrato' = 3,
                                            'Arrendada sin contrato' = 4,
-                                           'Cedida (por trabajo o por familiar)' = 5,
-                                           'Usufructo/Ocupación o posesión irregular' = 6),
+                                           'Cedida \n(por trabajo o por familiar)' = 5,
+                                           'Usufructo/\nOcupación o Posesión irregular' = 6),
                                 label = 'Situación bajo la cual su hogar ocupa la vivienda'))
 
 # Gráfico -------------------------------------------------------
 
 tab <- base %>% 
-  tabla_vars_segmentos(.vars = vars(v13_r),
-                       .segmentos = vars(dau),
+  tabla_vars_segmentos(.vars = vars(qaut),
+                       .segmentos = vars(v13_r),
                        miss = NA,
                        .wt = expr) %>% 
-  filter(!is.na(segmento_cat))
+  filter(segmento_cat != 'No sabe/no responde',
+         !is.na(segmento_cat))
 
 gg_polar <- ggplot(tab, aes(x = pregunta_cat, y = prop,  fill = as.factor(segmento_cat))) + 
   geom_bar(stat = "identity", position = "identity", width = 1) +
-  coord_polar()
+  coord_polar() +
+  theme_minimal()
 
 gg_polar
