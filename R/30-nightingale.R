@@ -8,12 +8,12 @@ library(sjmisc)
 library(ggplot2)
 library(desuctools)
 
-base <- haven::read_sav('Casen 2017.sav') %>%
-  clean_names() %>%
-  select(folio, expr, v13, v39f, qaut, dau)
-
-base %>%
-  saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
+# base <- haven::read_sav('Casen 2017.sav') %>%
+#   clean_names() %>%
+#   select(folio, expr, v13, v39f, qaut, dau)
+# 
+# base %>%
+#   saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
 
 base <- readRDS ('inputs/30-nightingale-casen2017.rds')
 
@@ -45,16 +45,26 @@ base <- base %>%
 # Gráfico -------------------------------------------------------
 
 tab <- base %>% 
-  tabla_vars_segmentos(.vars = vars(qaut),
+  tabla_vars_segmentos(.vars = vars(dau),
                        .segmentos = vars(v13_r),
                        miss = NA,
                        .wt = expr) %>% 
   filter(segmento_cat != 'No sabe/no responde',
-         !is.na(segmento_cat))
+         !is.na(segmento_cat),
+         !is.na(pregunta_cat))
 
 gg_polar <- ggplot(tab, aes(x = pregunta_cat, y = prop,  fill = as.factor(segmento_cat))) + 
   geom_bar(stat = "identity", position = "identity", width = 1) +
   coord_polar() +
-  theme_minimal()
+  # geom_text(aes(label = scales::percent(prop)), position = position_stack(vjust = 0.5)) +
+  scale_fill_brewer(palette = "Spectral") +
+  theme_minimal() +
+  theme(plot.title = element_text(size = rel(1.1)),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        legend.title = element_blank()) +
+  labs(title = 'Situación bajo la cual su hogar ocupa la vivienda, según decil',
+       caption = "Casen 2017")
 
 gg_polar
