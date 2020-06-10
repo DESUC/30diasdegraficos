@@ -4,9 +4,9 @@
 
 library(janitor)
 library(sjlabelled)
-library(sjmisc)
-library(ggplot2)
+library(tidyverse)
 library(desuctools)
+library(ggplot2)
 
 # base <- haven::read_sav('Casen 2017.sav') %>%
 #   clean_names() %>%
