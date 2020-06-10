@@ -6,13 +6,6 @@ library(ggplot2)
 library(sjlabelled)
 library(janitor)
 
-base <- haven::read_sav('inputs/Base_en_SAV_Encuesta_de_Medio_Ambiente_2016.sav') %>%
-  clean_names() %>% 
-  select(folio, pond, p21, p27e)
-
-base %>%
-  saveRDS(file.path('inputs/26-marimekko-df_encuesta_de_medio_ambiente_2016.rds'))
-
 base <- readRDS ('inputs/26-marimekko-df_encuesta_de_medio_ambiente_2016.rds')
 
 # Datos a graficar
