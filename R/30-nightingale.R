@@ -8,13 +8,6 @@ library(tidyverse)
 library(desuctools)
 library(ggplot2)
 
-# base <- haven::read_sav('Casen 2017.sav') %>%
-#   clean_names() %>%
-#   select(folio, expr, v13, pco1, qaut, dau)
-# 
-# base %>%
-#   saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
-
 base <- readRDS ('inputs/30-nightingale-casen2017.rds')
 
 base$total=1
@@ -50,8 +43,7 @@ tab <- base %>%
                        .segmentos = vars(dau),
                        miss = NA,
                        .wt = expr) %>% 
-  filter(segmento_cat != 'No sabe/no responde',
-         !is.na(segmento_cat),
+  filter(!is.na(segmento_cat),
          !is.na(pregunta_cat))
 
 gg_polar <- ggplot(tab, aes(x = segmento_cat, y = casos, fill = as.factor(pregunta_cat))) +
@@ -66,8 +58,8 @@ gg_polar <- ggplot(tab, aes(x = segmento_cat, y = casos, fill = as.factor(pregun
         axis.text.y = element_blank(),
         axis.text.x = element_text(size = 12, color = "black"),
         legend.title = element_blank()) +
-  labs(title = 'Situación bajo la cual su hogar ocupa la vivienda, según decil',
-       caption = "Casen 2017")
+  labs(title = 'Situación bajo la cual su hogar ocupa la vivienda, \n según decil de ingreso autónomo del hogar',
+       caption = "Datos ponderados, Casen 2017")
 gg_polar
 
 ggsave('outputs/30-nightingale.png',
