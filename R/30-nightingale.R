@@ -8,12 +8,12 @@ library(tidyverse)
 library(desuctools)
 library(ggplot2)
 
-# base <- haven::read_sav('Casen 2017.sav') %>%
-#   clean_names() %>%
-#   select(folio, expr, v13, v39f, qaut, dau)
-# 
-# base %>%
-#   saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
+base <- haven::read_sav('Casen 2017.sav') %>%
+  clean_names() %>%
+  select(folio, expr, v13, pco1, qaut, dau)
+
+base %>%
+  saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
 
 base <- readRDS ('inputs/30-nightingale-casen2017.rds')
 
@@ -45,6 +45,7 @@ base <- base %>%
 # Gráfico -------------------------------------------------------
 
 tab <- base %>% 
+  filter(pco1 == 1) %>%
   tabla_vars_segmentos(.vars = vars(v13_r),
                        .segmentos = vars(dau),
                        miss = NA,
@@ -53,16 +54,17 @@ tab <- base %>%
          !is.na(segmento_cat),
          !is.na(pregunta_cat))
 
-gg_polar <- ggplot(tab, aes(x = segmento_cat, y = casos,  fill = as.factor(pregunta_cat))) +
-  geom_bar(stat = "identity", position = "identity", color = 'grey20') +
-  coord_polar() +
+gg_polar <- ggplot(tab, aes(x = segmento_cat, y = prop, fill = as.factor(pregunta_cat))) +
+  geom_bar(position = "stack", color = 'grey20') +
+  # geom_col(position = "stack") +
+  # coord_polar() +
   # geom_text(aes(label = scales::percent(prop)), position = position_stack(vjust = 0.5)) +
   scale_fill_brewer(palette = "Spectral", direction = -1) +
   theme_minimal() +
   theme(plot.title = element_text(size = rel(1.1)),
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
+        # axis.text.y = element_blank(),
         axis.text.x = element_text(size = 12, color = "black"),
         legend.title = element_blank()) +
   labs(title = 'Situación bajo la cual su hogar ocupa la vivienda, según decil',
