@@ -8,12 +8,12 @@ library(tidyverse)
 library(desuctools)
 library(ggplot2)
 
-base <- haven::read_sav('Casen 2017.sav') %>%
-  clean_names() %>%
-  select(folio, expr, v13, pco1, qaut, dau)
-
-base %>%
-  saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
+# base <- haven::read_sav('Casen 2017.sav') %>%
+#   clean_names() %>%
+#   select(folio, expr, v13, pco1, qaut, dau)
+# 
+# base %>%
+#   saveRDS(file.path('inputs/30-nightingale-casen2017.rds'))
 
 base <- readRDS ('inputs/30-nightingale-casen2017.rds')
 
