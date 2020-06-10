@@ -37,7 +37,7 @@ base <- base %>%
                                 labels = c('Propia o compartida \npagada' = 1,
                                            'Propia o compartida \npagándose' = 2,
                                            'Arrendada' = 3,
-                                           # 'Arrendada sin contrato' = 4,
+                                           'Arrendada sin contrato' = 4,
                                            'Cedida \n(por trabajo o por familiar)' = 5,
                                            'Usufructo/\nOcupación o Posesión irregular' = 6),
                                 label = 'Situación bajo la cual su hogar ocupa la vivienda'))
@@ -53,22 +53,18 @@ tab <- base %>%
          !is.na(segmento_cat),
          !is.na(pregunta_cat))
 
-gg_polar <- ggplot(tab, aes(x = segmento_cat, y = prop,  fill = as.factor(pregunta_cat))) + 
-  geom_bar(stat = "identity", position = "identity", width = 1, color = "gray20") +
-  coord_polar(start = 3 * pi / 2) +
+gg_polar <- ggplot(tab, aes(x = segmento_cat, y = casos,  fill = as.factor(pregunta_cat))) +
+  geom_col() +
+  coord_polar() +
   # geom_text(aes(label = scales::percent(prop)), position = position_stack(vjust = 0.5)) +
-  # scale_y_continuous('', expand = c(0, 0), 
-  #                    limits = c(0,1), 
-  #                    labels = function(x) scales::percent(x, accuracy = 1)) +
-  scale_fill_brewer(palette = "Spectral") +
+  scale_fill_brewer(palette = "Spectral", direction = -1) +
   theme_minimal() +
   theme(plot.title = element_text(size = rel(1.1)),
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
-        # axis.text.y = element_blank(),
+        axis.text.y = element_blank(),
         legend.title = element_blank()) +
   labs(title = 'Situación bajo la cual su hogar ocupa la vivienda, según decil',
        caption = "Casen 2017")
-
 gg_polar
 
