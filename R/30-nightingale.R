@@ -54,20 +54,24 @@ tab <- base %>%
          !is.na(segmento_cat),
          !is.na(pregunta_cat))
 
-gg_polar <- ggplot(tab, aes(x = segmento_cat, y = prop, fill = as.factor(pregunta_cat))) +
-  geom_bar(position = "stack", color = 'grey20') +
-  # geom_col(position = "stack") +
-  # coord_polar() +
+gg_polar <- ggplot(tab, aes(x = segmento_cat, y = casos, fill = as.factor(pregunta_cat))) +
+  geom_bar(stat = "identity", position = "stack", color = 'grey20') +
+  coord_polar() +
   # geom_text(aes(label = scales::percent(prop)), position = position_stack(vjust = 0.5)) +
   scale_fill_brewer(palette = "Spectral", direction = -1) +
   theme_minimal() +
   theme(plot.title = element_text(size = rel(1.1)),
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
-        # axis.text.y = element_blank(),
+        axis.text.y = element_blank(),
         axis.text.x = element_text(size = 12, color = "black"),
         legend.title = element_blank()) +
   labs(title = 'Situación bajo la cual su hogar ocupa la vivienda, según decil',
        caption = "Casen 2017")
 gg_polar
 
+ggsave('outputs/30-nightingale.png',
+       width = 5,
+       height = 5,
+       scale = 3,
+       units = 'cm')
