@@ -157,8 +157,6 @@ Equipo [DESUC](http://sociologia.uc.cl/desuc/quienes-somos-desuc/)
 - Datos para la elaboración del gráfico disponibles [aquí](/inputs/23-poblacion.rds)
 - Código disponible [aquí](/R/23-sunburst.R)
 
-![Día 23](outputs/23-sunburst.html)
-
 ### Día 24: Coropletas
 
 - Datos para la elaboración del gráfico disponibles [aquí](/inputs/24-nacimientos_comunas_anos.rds) y  [aquí](/inputs/24-sf_comunas_gs.rds)
