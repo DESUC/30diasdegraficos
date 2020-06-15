@@ -62,7 +62,7 @@ ggsave(here::here('03-Polivictimizacion_-_Descriptivo_output', 'gg_vict_año_eda
 gg_vict_año_edad_wgt_alu
 
 
-ggsave('outputs/22-anotaciones.png',
+ggsave('outputs/21-anotaciones.png',
        width = 6,
        height = 5,
        scale = 3,
