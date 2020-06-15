@@ -25,7 +25,7 @@ gg_plazas <- ggplot(data = base, aes(x = imad, y = prop_m, colour = cargo)) +
           plot.subtitle = element_text(face = 'italic')) 
 
 
-ggsave('outputs/imad_2019.png', 
+ggsave('outputs/02-lineas-imad_2019.png', 
        gg_plazas, 
        scale = 3,
        width = 5, height = 4, units = 'cm')
