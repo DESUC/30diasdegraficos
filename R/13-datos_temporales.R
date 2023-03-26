@@ -2,6 +2,8 @@
 # Disponible en alguna parte del sitio: https://www.ine.cl
 
 library(tidyverse)
+library(ggrepel)
+library(patchwork)
 
 # Cambiar locale para que gráfico tenga meses en español
 Sys.setlocale(category = "LC_ALL","es_ES.UTF-8")
@@ -10,15 +12,11 @@ Sys.setlocale(category = "LC_ALL","es_ES.UTF-8")
 # Base de datos con la suma de necimientos por día desde 1985 a 2017.
 df_nacimientos_dia <- readRDS('inputs/13-datos_temporales_df_nacimientos_dia_30diasdegraficos_2020.rds')
 
-# Año, mes y día de la semana
+# Año y mes
 df_nacimientos_dia <- df_nacimientos_dia |> 
   mutate(mes = month(fecha_mes_dia,
                      label = TRUE,
-                     abbr = FALSE),
-         dia_semana = wday(fecha_mes_dia, 
-                           label = TRUE,
-                           abbr = FALSE,
-                           week_start = 1))
+                     abbr = FALSE))
 
 # 11 días con mayores nacimientos.
 fecha_mes_dia_min <- df_nacimientos_dia %>% 
@@ -85,7 +83,7 @@ ggsave('outputs/13-datos_temporales.png',
 
 # Gráfico nacimientos mes ####
 
-df_nacimientos_dia |> 
+gg_mes <- df_nacimientos_dia |> 
   count(mes, 
         wt = nacimientos, 
         name = 'nacimientos') |> 
@@ -103,9 +101,13 @@ df_nacimientos_dia |>
              fill = '#a4b4c6') + 
   f_scales(y_breaks = seq(0, 1000000, 100000)) +
   guides(x = ggplot2::guide_axis(n.dodge = 2)) +
-  labs(title = 'Nacimientos en Chile por mes',
+  labs(title = 'Por mes',
+       subtitle = NULL,
+       caption = NULL,
        x = 'Mes') +
-  theme(axis.text.x = element_text(size = rel(1.1)))
+  theme(axis.text.x = element_text(size = rel(1.25)))
+
+gg_mes
 
 ggsave('outputs/13.2-datos_temporales_mes.png',
        width = 5,
@@ -113,11 +115,12 @@ ggsave('outputs/13.2-datos_temporales_mes.png',
        scale = 3,
        units = 'cm')
 
+
 # Gráfico nacimientos día semana ####
 
 df_nacimientos_dia_semana <- readRDS('inputs/13-datos_temporales_df_nacimientos_dia_semana.rds')
 
-df_nacimientos_dia_semana |> 
+gg_dia <- df_nacimientos_dia_semana |> 
   ggplot(aes(x = dia_semana, y = nacimientos)) +
   geom_linerange(aes(ymin = 0, ymax = after_stat(y)),
                  colour = 'gray60',
@@ -132,13 +135,31 @@ df_nacimientos_dia_semana |>
              fill = '#a4b4c6') + 
   f_scales(y_breaks = seq(0, 1500000, 150000)) +
   guides(x = ggplot2::guide_axis(n.dodge = 2)) +
-  labs(title = 'Nacimientos en Chile por día de la semana',
+  labs(title = 'Por día de la semana',
+       subtitle = NULL,
+       caption = NULL,
        x = 'Día de la semana') +
-  theme(axis.text.x = element_text(size = rel(1.5)))
+  theme(axis.text.x = element_text(size = rel(1.4)))
 
+gg_dia
 
 ggsave('outputs/13.3-datos_temporales_dia_semana.png',
        width = 5,
+       height = 5,
+       scale = 3,
+       units = 'cm')
+
+
+## Gráfico conjunto día y mes
+
+gg_dia + gg_mes +
+  patchwork::plot_layout(widths = c(1, 1.5)) + 
+  plot_annotation(title = 'Nacimientos en Chile',
+                  subtitle = str_glue('Total entre 1985 y 2017, para un total de {chr_nacimientos_total} nacimientos.'),
+                  caption = 'A partir de datos INE, DESUC')
+
+ggsave('outputs/13-datos_temporales_dia_mes.png',
+       width = 10,
        height = 5,
        scale = 3,
        units = 'cm')
